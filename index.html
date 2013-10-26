@@ -21,10 +21,11 @@
                     try{
                         _h.send(null);
                         _r=_h.getResponseHeader("Date");
+                        _r.toLocaleString();
                     }catch(e){
-                        _r=new Date();
+                        _r=new Date().getTime();
                     };
-                var _n=new Date(_r.getTime()),
+                var _n=new Date(_r),
                     _c=new Date(_t),
                     _s=Math.floor((_n-_c)/24/60/60/1000);
                 document.write(_s);
