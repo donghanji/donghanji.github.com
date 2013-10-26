@@ -21,7 +21,7 @@
                     try{
                         _h.send(null);
                         _r=_h.getResponseHeader("Date");
-                        _r.toLocaleString();
+                        _r=_r.toLocaleString();
                     }catch(e){
                         _r=new Date().getTime();
                     };
