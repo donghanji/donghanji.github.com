@@ -11,7 +11,27 @@
 </head>
     <body>
         <div class="header">
-            <h1 class="remind">By donghanji,created &nbsp;<span class="already"><script type="text/javascript" id="_already">(function(){var _t=1382423996175,_n=new Date(),_c=new Date(_t),_s=Math.floor((_n-_c)/24/60/60/1000);document.write(_s);_already=document.getElementById('_already');_already.parentNode.removeChild(_already);})();</script></span> days.</h1>
+            <h1 class="remind">By donghanji,created &nbsp;<span class="already">
+            <script type="text/javascript" id="_already">
+            (function(){
+                var _t=1382423996175,
+                    _h=new XMLHttpRequest;
+                    _h.open('HEAD','.',false),
+                    _r=null;
+                    try{
+                        _h.send(null);
+                        _r=_h.getResponseHeader("Date");
+                    }catch(e){
+                        _r=new Date();
+                    };
+                var _n=new Date(_r.getTime()),
+                    _c=new Date(_t),
+                    _s=Math.floor((_n-_c)/24/60/60/1000);
+                document.write(_s);
+                var _already=document.getElementById('_already');_already.parentNode.removeChild(_already);
+            })();
+            </script>
+            </span> days.</h1>
             <div class="noline">&nbsp;</div>
         </div>
         <div class="body">
