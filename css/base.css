@@ -43,7 +43,7 @@ body{position:relative;font-size:16px;min-width:1024px;}
 .gist{position:absolute;top:0;left:260px;}
 .gist-two{margin-left:3.7em;}
 .noline{width:331px;position:relative;right:0;height:2px;background-color:#FFF;top:-3px;border-right:2px solid;}
-.body{position:relative;height:100%;}
+.body{position:relative;height:auto;}
 
 
 .footer{display:none;}
