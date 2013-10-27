@@ -226,11 +226,11 @@
                             if($target.attr('clicked')){
                                 $target.removeAttr('clicked',true);
                                 
-                                return $group.addClass('fold');
+                                return $group.removeClass('fold');
                             }
                             $target.attr('clicked',true);
                             
-                            return $group.removeClass('fold');
+                            return $group.addClass('fold');
                         }
                         if($target.hasClass('datetime')){
                             
