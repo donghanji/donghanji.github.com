@@ -37,7 +37,7 @@ body{position:relative;font-size:16px;min-width:1024px;}
 
 /**base layout**/
 .header,.body,.footer{width:100%;}
-.header{}
+.header{height:60px;}
 .remind{color:#666;font-size:2em;margin:0 .8em .02em .8em;border-bottom:1px dotted #CCC;}
 .already{color:#949494;}
 .gist{position:absolute;top:0;left:260px;}
