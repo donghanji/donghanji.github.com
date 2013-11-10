@@ -4,35 +4,15 @@
     <meta charset="utf-8">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1, maximum-scale=1">
-    <meta http-equiv="pragma" content="no-cache"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes"/>
+    <meta name="google" content="notranslate"/>
     <title>donghanji</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link type="text/css" rel="stylesheet" href="css/base.css"/>
 </head>
     <body>
         <div class="header">
-            <h1 class="remind">to2day,<span class="already">
-            <script type="text/javascript" id="_already">
-            (function(){
-                var _t=1382423996175,
-                    _h=new XMLHttpRequest;
-                    _h.open('HEAD','.',false),
-                    _r=null;
-                    try{
-                        _h.send(null);
-                        _r=_h.getResponseHeader("Date");
-                        _r=_r.toLocaleString();
-                    }catch(e){
-                        _r=new Date().getTime();
-                    };
-                var _n=new Date(_r),
-                    _c=new Date(_t),
-                    _s=Math.floor((_n-_c)/24/60/60/1000);
-                document.write(_s);
-                var _already=document.getElementById('_already');_already.parentNode.removeChild(_already);
-            })();
-            </script>
+            <h1 class="remind">to2day,<span class="already" id="_days">
             </span> days,<div class="gist"><p>to <span>Learn</span>,to <span>Share</span></p><p class="gist-two">to <span>Work</span>,to <span>Life</span></p></div></h1>
             <div class="noline">&nbsp;</div>
         </div>
@@ -199,9 +179,47 @@
                 </div>
             </div>
         </div>
+        <div id="about" class="about fold">
+            <a class="contact-me">Contact me<span>&nbsp;&nbsp;&nbsp;&nbsp;</span></a>
+            <div class="information">
+                <p><label>Name:</label><span>Luo Xiong</span></p>
+                <p><label>Age:</label><span id="_age">27</span></p>
+                <p><label>Email:</label><a href="mailto:l.x-xiong@163.com">l.x-xiong@163.com</a></p>
+                <p><label>&nbsp;</label><a href="mailto:donghanji1986@gmail.com">donghanji1986@gmail.com</a></p>
+                <p><label>QQ:</label><span>812080468</span></p>
+                <p><label>Tel:</label><span>18349153324</span></p>
+            </div>
+        </div>
         <div class="footer"></div>
         <script type="text/javascript" src="module.min.js"></script>
         <script type="text/javascript" src="config.js"></script>
+        <script type="text/javascript" id="_already">
+            (function(){
+                var _t=1382423996175,
+                    _b=1986,
+                    _h=new XMLHttpRequest;
+                    _h.open('HEAD','.',false),
+                    _r=null;
+                    try{
+                        _h.send(null);
+                        _r=_h.getResponseHeader("Date");
+                        _r=_r.toLocaleString();
+                    }catch(e){
+                        _r=new Date().getTime();
+                    };
+                var _n=new Date(_r),
+                    _c=new Date(_t),
+                    _s=Math.floor((_n-_c)/24/60/60/1000),
+                    _days=document.getElementById('_days'),
+                    _age=document.getElementById('_age');
+                _days.innerHTML=_s;
+                _age.innerHTML=_n.getFullYear()-_b;
+                _days.removeAttribute('id');
+                _age.removeAttribute('id');
+                
+                var _already=document.getElementById('_already');_already.parentNode.removeChild(_already);
+            })();
+            </script>
         <script type="text/javascript">
            (function(){
                 var $name=module.globals('$');
@@ -220,13 +238,19 @@
                         
                         //to fold or expand
                         if($target.hasClass('roundabout')){
+                            //contact
+                            fold($('#about .information'));
                             var $group=$('.group');
                             if($target.attr('clicked')){
                                 $target.removeAttr('clicked',true);
+                                //show contact information
+                                $('#about').addClass('fold');
                                 
                                 return $group.removeClass('fold');
                             }
                             $target.attr('clicked',true);
+                            //hide contact information
+                            $('#about').removeClass('fold');
                             
                             return $group.addClass('fold');
                         }
@@ -237,7 +261,13 @@
                         if($target.hasClass('to-fold')){
                             
                             return fold($target.parent().parent().parent());
-                        }  
+                        }
+
+                        //contact
+                        if($target.hasClass('contact-me')){
+                            
+                            return fold($('#about'));
+                        }
                     });
                 });
            })();
