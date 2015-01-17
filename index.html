@@ -232,6 +232,7 @@
                 <p><label>Tel:</label><span>18349153324</span></p>
             </div>
         </div>
+		<a class="gotop">Top</a>
         <div class="footer"></div>
         <script type="text/javascript" src="module.js"></script>
         <script type="text/javascript" src="config.js"></script>
@@ -310,7 +311,21 @@
                             
                             return fold($('#about'));
                         }
+						if($target.hasClass('gotop')){
+							
+							return $('body,html').animate({scrollTop:0},200);
+						}
                     });
+					//scroll
+					$(window).scroll(function(){
+						if(document.body.scrollTop > $('.roundabout').offset().top){
+							
+							$('.gotop').addClass('showed');
+						}else{
+							
+							$('.gotop').removeClass('showed')
+						}
+					});
                 });
            })();
         </script>
