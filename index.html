@@ -296,7 +296,7 @@
                             
                             return $group.addClass('fold');
                         }
-                        if($target.hasClass('datetime')){
+                        if($target.hasClass('datetime') || $target.hasClass('title')){
                             
                             return fold($target.parent().parent());
                         }
