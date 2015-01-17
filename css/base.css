@@ -92,7 +92,7 @@ body{height:auto;min-width:768px;position:relative;font-size:16px;}
 .group.fold .to-fold{width:auto;display:inline;}
 
 @media (max-width:667px){
-	body{min-width:100%;overflow-x:hidden;}
+	body{min-width:100%;}
 	.header{height:auto;}
 	.remind{font-size:1.8em;border:none;}
 	.noline{display:none;}
