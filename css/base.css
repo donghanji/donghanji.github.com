@@ -58,14 +58,14 @@ body{position:relative;font-size:16px;min-width:1024px;}
 .unknown,.timeline{left:20%;}
 .unknown .roundabout{cursor:pointer;}
 .left{width:20%;left:0;text-align:right;min-height:30px;}
-.right{width:80%;left:20%;}
+.right{width:80%;left:20%;top:-2em;overflow:hidden;}
 
 
 .datetime{color:rgba(78,84,123,0.8);position:absolute;right:.6em;cursor:pointer;}
 .group,.zone{width:100%;}
 .group{position:relative;height:auto;}
 .zone{min-height:80px;}
-.title{position:absolute;top:-1.6em;left:.8em;font-size:1.4em;}
+.title{position:relative;left:.8em;font-size:1.4em;}
 
 .zone h3{padding:0 2.5em;}
 .zone h3 span{color: rgba(100,100,100,0.8);font-size:13px;display:block;padding-bottom:5px;}
@@ -88,6 +88,30 @@ body{position:relative;font-size:16px;min-width:1024px;}
 .group.fold .zone,.about.fold .information{height:0;min-height:0;overflow:hidden;-webkit-transition-duration:1s;-moz-transition-duration:1s;-ms-transition-duration:1s;transition-duration:1s;}
 .to-fold{display:none;padding-left:.4em;}
 .group.fold .to-fold{width:auto;display:inline;}
+
+@media (max-width:667px){
+	body{min-width:100%;overflow-x:hidden;}
+	.header{height:auto;}
+	.remind{font-size:1.8em;border:none;}
+	.noline{display:none;}
+	
+	.gist{position:relative;left:1em;}
+	.gist-two{margin-left:1em;}
+	.about{top:110px;left:50%;margin-left:-125px;border-top:1px dotted #CCC;border-bottom:1px dotted #CCC;}
+	.about.fold,.about.fold .information{height:auto;}
+	.about .information,.about .contact-me{border:none;}
+	.about .contact-me{padding:0;}
+	
+	
+	
+	.body{top:160px;}
+	.unknown, .timeline{left:25%;}
+	.roundabout{margin-left:19%;}
+	.unknown{width:100%;margin-left:0;left:0;text-align:left;}
+	.left{width:25%;}
+	.right{width:75%;left:25%;}
+	.title{font-size:1.2em;}
+}
 
 
 
