@@ -1,8 +1,898 @@
-/*
-   module.js ,version 0.1.0 ,updated on 2013-10-27
-   module for Plugins Modules library.
-
-   https://github.com/donghanji/pm
+﻿/*
+ * @name module.js
+ * @author donghanji
+ 
+ * @datetime 2013-01-07,2013-09-07,2013-10-26,2014-07-02
+ *
+ * @desc
+        //The aims of PM is that taking modules as the core to form a powerful plug-in library.
+        //This file is the core of PM,Modules.
+        
+        //This is the first version of PM.
+        
+        //The future of the PM, you and I, we us grow together...
+ *
+ * @update
+        https://github.com/donghanji/pm
  */
+ 
+'use strict';
 
-!function(a,b){var c=window.location.pathname,d={},e=Object.prototype.toString,f={version:"1.2.0",options:{require:!1,nocache:!1,debug:!1,timeout:7e3,mined:"",base:"",dirs:{},alias:{},files:[],coms:{},defaults:{},globals:{}},util:{},path:{}},g={SLASHDIR:/^\//,BASEDIR:/.*(?=\/.*$)/,JSSUFFIX:/\.js$/,COMMENT:/(\/\*([\s\S]*?)\*\/|([^:]|^)\/\/(.*)$)/gm,REQUIRE:/(?:^|[^.$])\brequire\s*\(\s*(["'])([^"'\s\)]+)\1\s*\)/g,REQUIRE_FUN:/^function \(\w*\)/,MODULENAME:/\/([\w.]+)?(?:\1)?$/,PLACEHOLDER_DIR:/\{(\S+)?\}(?:\1)?/},h={ERROR:-1,BEGIN:0,LOADING:1,LOADED:2,END:3};!function(a){a.extend=function(){var a,b=arguments[0]||{},c=arguments.length,d=1;for(c===d&&(b=this,--d);c>d;d++)if(a=arguments[d],"object"==typeof a)for(var e in a)b[e]=a[e];return b},a.extend({type:function(a){return null==a?String(a):d[e.call(a)]||"object"},isNumeric:function(a){return!isNaN(parseFloat(a))&&isFinite(a)},isString:function(b){return"string"===a.type(b)},isFunction:function(b){return"function"===a.type(b)},isObject:function(b){return"object"===a.type(b)},isArray:function(b){return"array"===a.type(b)}}),a.now=function(){return(new Date).getTime()},a.uid=function(){return a.now()+""+Math.floor(1e6*Math.random())},a.isEmpty=function(c){return""===c||c===b||null===c?!0:a.isArray(c)?c.length?!1:!0:a.isObject(c)?a.isEmptyObject(c):!1},a.isEmptyObject=function(a){for(var b in a)return!1;return!0},a.each=function(c,d){var e=0,f=c.length,g=f===b||a.isFunction(c);if(g){for(var h in c)if(d.call(c[h],h,c[h])===!1)break}else for(;f>e&&d.call(c[e],e,c[e++])!==!1;);},a.each("Boolean,Number,String,Function,Array,Date,RegExp,Object".split(","),function(a,b){d["[object "+b+"]"]=b.toLowerCase()}),a.keys=Object.keys||function(a){var b=[];for(var c in a)a.hasOwnProperty(c)&&b.push(c);return b},a.unique=function(b){var c={};return a.each(b,function(a,b){c[b]=1}),a.keys(c)},a.isInArray=function(b,c){if(!a.isArray(b))return!1;for(var d=0,e=b.length;e>d;d++)if(b[d]===c)return!0;return!1},a.parseDependencies=function(b){b=b.replace(g.COMMENT,"");var c,d=[],e=g.REQUIRE;for(e.lastIndex=0;c=e.exec(b);)c[2]&&d.push(c[2]);return a.unique(d)},a.path2name=function(b){if(a.isArray(b)){var c=[];return a.each(b,function(b,d){var d=a.path2name(d);c.push(d)}),c}var d=g.MODULENAME,e=d.exec(b);return e&&e.length>1&&(b=e[1].replace(g.JSSUFFIX,"")),b}}(f.util),function(a){a.dirname=function(a){var b=a.match(g.BASEDIR);return(b?b[0]:".")+"/"},a.realpath=function(a){var b=f.options.base;return a.indexOf("//")>-1||(a=b+a),a}}(f.path),function(){var a=f.path,b=f.options,d=a.dirname(c);b.base=d}(f.options);var i={},j=[],k={};!function(){var c=f.options,d=f.util,e=f.path;f.dirs=function(a){a=d.isObject(a)?a:{};var b=c.dirs,e=g.PLACEHOLDER_DIR;for(var f in a){var h=e.exec(a[f]),i=a[f];if(h&&h.length>1){var j=b[h[1]]||h[1]||"";i=i.replace(h[0],j)}a[f]=i}return a},f.init=function(b){b=d.isObject(b)?b:{},c=d.extend(c,b),c.alias=f.dirs(c.alias);var e=c.mined,g=/^\./;e=e&&!g.test(e)?"."+e:e,c.mined=e,c.require===!0&&(a.require=f.declare,a.define=f.declare,a.define.remove=f.remove),c.debug===!0&&(f.ModulesSet=i,f.ModuleCachesQueue=j,f.StatusCacheQueue=k,a.module=f,a.module.config=f.init)},f.alias=function(a){return d.isEmpty(a)?c.alias:(a=d.isObject(a)?a:{},a=f.dirs(a),c.alias=d.extend(a,c.alias),void 0)},f.files=function(a){if(d.isEmpty(a))return c.files;if(d.isString(a)&&(a=[].concat(a)),d.isObject(a)){var b=[];d.each(a,function(a){b.push(a)}),f.alias(a),a=b}c.files=d.unique(c.files.concat(a))},f.globals=function(a){return d.isEmpty(a)?c.globals:d.isString(a)?c.globals[a]||"":(a=d.isObject(a)?a:{},c.globals=d.extend(a,c.globals),void 0)},f.defaults=function(a,e){if(d.isEmpty(a))return c.defaults;if(d.isObject(a))for(var g in a)f.defaults(g,a[g]);else{if(a=f.aliasId(a),e===b)return c.defaults[a]||{};e=d.isObject(e)?e:{},c.defaults[a]=c.defaults[a]||{},c.defaults[a]=d.extend(e,c.defaults[a])}},f.scripts=function(){return document.getElementsByTagName("script")},f.createScript=function(a,c){c=c===b||c?!0:!1;var d=document.createElement("script");return d.setAttribute("data-requiremodule",a),d.type="text/javascript",d.charset="utf-8",d.async=c,d},f.getScriptData=function(a){var b=a.currentTarget||a.srcElement;return b.detachEvent?(b&&b.detachEvent("onreadystatechange",f.onScriptLoad),b&&b.detachEvent("error",f.onScriptError)):(b&&b.removeEventListener("load",f.onScriptLoad,!1),b&&b.removeEventListener("error",f.onScriptError,!1)),{node:b,id:b&&b.getAttribute("data-requiremodule")}},f.loadJS=function(a){var b=f.isInComs(a);if(a=null!==b?b:a,!(f.getStatus(a)>h.BEGIN)){f.statusSet(a,h.LOADING);var i=document.getElementsByTagName("head")[0],j=f.createScript(a),a=f.aliasId(a,"v"),k=e.realpath(a);k+=c.mined,g.JSSUFFIX.test(k)||(k+=".js"),c.nocache&&(k=k+"?t="+d.now()),j.src=k,i.appendChild(j),j.attachEvent?(j.attachEvent("onreadystatechange",f.onScriptLoad),j.attachEvent("onerror",f.onScriptError)):(j.addEventListener("load",f.onScriptLoad,!1),j.addEventListener("error",f.onScriptError,!1))}},f.removeJS=function(a){a=f.aliasId(a),d.each(f.scripts(),function(b,c){return c&&c.getAttribute("data-requiremodule")===a?(c.parentNode.removeChild(c),!0):void 0})},f.onScriptLoad=function(a){var b=a.currentTarget||a.srcElement;if("load"===a.type||"readystatechange"==a.type&&("loaded"===b.readyState||"complete"===b.readyState)){var c=f.getScriptData(a),d=c.id;f.statusSet(d,h.LOADED),f.isInFiles(d)&&f.compile(d)}},f.onScriptError=function(a){var b=f.getScriptData(a),c=b.id;f.statusSet(c,h.ERROR),f.compile(c),f.removeJS(c)},f.statusSet=function(a,b){a=f.aliasId(a),k[a]||(k[a]={}),k[a].status=b},f.getStatus=function(a){return a=f.aliasId(a),k[a]&&k[a].status||h.BEGIN},f.load=function(a){d.each(a,function(a,b){f.loadJS(b)})},f.isInAlias=function(a){var b=c.alias;for(var e in b){var f=d.path2name(b[e]);if(e===a||f===a||b[e]===a)return{k:e,v:b[e]}}return null},f.aliasId=function(a,b){b=b||"k";var c=f.isInAlias(a);return a=c&&c[b]||a},f.isInFiles=function(a){for(var b=c.files,a=f.aliasId(a),d=0,e=b.length;e>d;d++)if(b[d]===a)return!0;return!1},f.isInComs=function(a){var b=c.coms,e=f.aliasId(a),g=f.aliasId(a,"v");for(var h in b)if(e===h||d.isInArray(b[h],e)||d.isInArray(b[h],g))return h;return null},f.isInModules=function(a){return a=f.aliasId(a),i[a]},f.noInModulesItems=function(a){var b=[];return d.each(a,function(a,c){f.isInModules(c)||b.push(c)}),b},f.isRequire=function(a){return a?g.REQUIRE_FUN.test(a):!1},f.moduleSet=function(a,b,c){if(a=f.aliasId(a),f.isInModules(a)&&d.isFunction(c)){if(f.isRequire(c.toString()))return c(this.declare),void 0;throw'module "'+a+'" already defined!'}d.isFunction(c)&&(i[a]={id:a,dependencies:b,factory:c})},f.compile=function(a){a=f.aliasId(a),v=f.aliasId(a,"v"),d.each(j,function(b,c){function e(){for(var b=0,c=g.length;c>b;b++)if(g[b]===a)return g.splice(b,1),f.compile(a),void 0}if(c){var g=c.links||[];if(d.isInArray(g,a)||d.isInArray(g,v)){if(g.length<=1){var h=c.id||d.uid(),k=c.dependencies||[],l=c.factory||"",m=i[a]||{},n=m.dependencies||[];k=k.concat(n),k=d.unique(k),j.splice(b,1),f.complete(h,k,l)}e()}}})},f.complete=function(a,b,c){f.moduleSet(a,b,c);var d=f.exports(a);return f.compile(a),d},f.build=function(a){var b=a.factory;a.exports={},delete a.factory;var c=b(this.declare,a.exports,a);return d.isEmptyObject(a.exports)&&(a.exports=c||{}),a.exports},f.exports=function(a){if(f.isInModules(a)){a=f.aliasId(a);var b=i[a].factory?f.build(i[a]):i[a].exports;return b}return null},f.declare=function(a,b,c){b=b||[],d.isArray(a)&&(c=b,b=a,a=""),d.isFunction(b)&&(c=b,b=[]),d.isFunction(a)&&(c=a,b=d.parseDependencies(c.toString())||[],a=""),a=a||d.uid();var e=f.noInModulesItems(b);if(e&&e.length){var g={id:a,dependencies:b,factory:c,links:d.path2name(e)};return j.push(g),f.load(b),void 0}return f.complete(a,b,c)},f.remove=function(a){a=f.aliasId(a),a&&(f.removeJS(a),delete k[a],delete i[a])}}(),a.module=a.module||{},a.module.config=f.init,a.module.alias=f.alias,a.module.files=f.files,a.module.globals=f.globals,a.module.defaults=f.defaults,a.module.declare=f.declare}(this);
+(function(global,undefined){
+    //location pathname
+    var document=global.document,
+        startPath = global.location.pathname,
+        //private property
+        class2type={},
+        toString=Object.prototype.toString;
+    
+    //module object
+    var module={
+        options:{
+            'require':false,//whether open require mode
+            'nocache':false,
+            'debug':false,//whether open debug mode
+            'timeout':7000,//.ms
+            'mined':'',//''/min/..
+            'base':'',//base path
+            'dirs':{},//directories,include modules,plugins,mobile,pad,web
+            'alias':{},//module alias
+            'files':[],//not a module,a common file,there is no define method in it
+            'coms':{},//one file ,multiple modules,as a component
+            'defaults':{},//plugins default setting
+            'globals':{}//global variables  
+        },
+        util:{},
+        path:{}
+    };
+    
+    //regx
+    var REGX={
+        'SLASHDIR':/^\//,
+        'BASEDIR':/.*(?=\/.*$)/,
+        'JSSUFFIX':/\.js(?:\?\w+\=\w+)?$/,
+        'PARAMSUFFIX':/\.js\?\w+\=\w+$/,
+        'COMMENT':/(\/\*([\s\S]*?)\*\/|([^:]|^)\/\/(.*)$)/mg,
+        'REQUIRE':/(?:^|[^.$])\brequire\s*\(\s*(["'])([^"'\s\)]+)\1\s*\)/g,
+        'REQUIRE_FUN':/^function \(\w*\)/,
+        'MODULENAME':/\/([\w.]+)?(?:\1)?$/,
+        'PLACEHOLDER_DIR':/\{([^\}\{]+)?\}/g
+    },
+    //status
+    STATUS={
+        'ERROR':-1,
+        'BEGIN':0,
+        'LOADING':1,
+        'LOADED':2,
+        'END':3
+    };
+    
+    /* 
+     * @name util
+     * @desc
+        the private utilities,internal use only.
+     *
+     */
+    (function(util){
+        util.extend=function(){
+            var options,
+                target=arguments[0]||{},
+                length=arguments.length,
+                i=1;
+            if(length === i){
+                target=this;
+                --i;
+            }
+            for(;i<length;i++){
+                options=arguments[i];
+                if(typeof options === 'object'){
+                    for(var name in options){
+                        target[name]=options[name];
+                    }
+                }
+            }
+            
+            return target;
+        };
+        //is* method,element attribute is *
+        util.extend({
+            type:function(value){
+                return value == null ?
+                String(value) :
+                class2type[toString.call(value)] || 'object';
+            },
+            isNumeric:function(value){
+                return !isNaN(parseFloat(value)) && isFinite(value);
+            },
+            isString:function(value){
+                return util.type(value) === 'string';
+            },
+            isFunction:function(value){
+                return util.type(value) === 'function';
+            },
+            isObject:function(value){
+                return util.type(value) === 'object';
+            },
+            isArray:function(value){
+                return util.type(value) === 'array';
+            }
+        });
+        //now time
+        util.now=function(){
+            
+            return new Date().getTime();
+        };
+        //unique id
+        util.uid=function(){
+            
+            return util.now()+''+Math.floor(Math.random()*1000000);
+        };
+        //is empty
+        util.isEmpty=function(val){
+            if(val === '' || val === undefined || val === null){
+            
+                return true;
+            }
+            if((util.isArray(val))){
+                
+                return val.length ? false : true;
+            }
+            if(util.isObject(val)){
+                
+                return util.isEmptyObject(val);
+            }
+            
+            return false;
+        };
+        //is a empty object
+        util.isEmptyObject=function(obj){
+            for(var name in obj){
+                return false;
+            }
+            
+            return true;
+        };
+        //traverse object or array
+        util.each=function(object,callback){
+            var i=0,
+                len=object.length,
+                isObj = len === undefined ||util.isFunction(object);
+            if(isObj){
+                for(var name in object){
+                    if(callback.call(object[name],name,object[name]) === false){
+                        break;
+                    }
+                }
+            }else{
+                for(;i<len;){
+                    if(callback.call(object[i],i,object[i++]) === false){
+                        break;
+                    }
+                }
+            }
+        };
+        //class2type object
+        util.each("Boolean,Number,String,Function,Array,Date,RegExp,Object".split(","), function(i, name) {
+            class2type[ "[object " + name + "]" ] = name.toLowerCase();
+        });
+        //get object all key,composed of an array
+        util.keys=Object.keys||function(o){
+            var ret=[];
+            for (var p in o) {
+                if (o.hasOwnProperty(p)) {
+                    ret.push(p);
+                }
+            }
+        
+            return ret;
+        };
+        //Remove an array of the same
+        util.unique=function(arr){
+            var o={};
+            util.each(arr,function(i,v){
+                o[v]=1;
+            });
+            
+            return util.keys(o);
+        };
+        util.isInArray=function(arr,val){
+            if(!util.isArray(arr)){
+                return false;
+            }
+            var i=0,    
+                len=arr.length;
+            for(;i<len;i++){
+                if(arr[i] === val){
+                    return true;
+                }
+            }
+            
+            return false;
+        };
+        //get the dependencies
+        util.parseDependencies=function(code){
+            code=code.replace(REGX.COMMENT,'');//empty comment
+            var ret = [], match,
+            reg=REGX.REQUIRE;
+            reg.lastIndex=0;
+            
+            while(match = reg.exec(code)){
+                if(match[2]){
+                    ret.push(match[2]);
+                }
+            }
+            
+            return util.unique(ret);
+        };
+        // path to name
+        util.path2name=function(id){
+            if(util.isArray(id)){
+                var arr=[];
+                util.each(id,function(i,v){
+                    v=util.path2name(v);
+                    arr.push(v);
+                });
+                
+                return arr;
+            }
+            var reg=REGX.MODULENAME,
+                ret=reg.exec(id);
+            if(ret&& ret.length > 1){
+                id=ret[1].replace(REGX.JSSUFFIX,'');
+            }
+            
+            return id;
+        };
+    })(module.util);
+    
+    //path
+    (function(path){
+        //to dir name
+        path.dirname=function(uri){
+            var s = uri.match(REGX.BASEDIR);
+            
+            return (s ? s[0] : '.') + '/';
+        };
+        //to real path
+        path.realpath=function(uri){
+            var base=module.options.base;
+            
+            //absolute
+            if(uri.indexOf('//') === -1){
+                uri=base+uri;
+            }
+            //
+            if(global.location.protocol === 'file:'){
+                if(/^\/\//.test(uri)){
+
+                    uri='http:'+uri;
+                }
+            }
+            /*if(REGX.SLASHDIR.test(uri)){
+                uri=uri.replace(REGX.SLASHDIR,'');
+            }*/
+            
+            return uri;
+        };
+    })(module.path);
+    
+    //config base
+    (function(config){
+        var _path=module.path,
+            _config=module.options;
+        
+        var base=_path.dirname(startPath);
+        
+        _config.base=base;
+    })(module.options);
+    
+    //module global variable or cache,when debug mode opening
+    var ModulesSet={},//module set
+        ModuleCachesQueue=[],//[{id:id,dependencies:[],factory:function,links:[]},{}]
+        StatusCacheQueue={};//{id:{status:0}}
+    //module method
+    (function(){
+        var _config=module.options,
+            _util=module.util,
+            _path=module.path;
+        /*
+         * @private
+         * @desc
+            replace placeholders({modules},{plugins},{mobile},{pad} and {web}) for actual directory
+            Don't separate ,jshint will be an error-"Don't make functions within a loop".
+         *
+         * @param {String} alias placeholder directory
+         * @return {String} alias actual directory
+         *
+         */
+        module.replace=function(dirs,res){
+            var reg=REGX['PLACEHOLDER_DIR'];
+            
+            return res.replace(reg,function(){
+                var args=arguments;
+                if(args.length >=4){
+                    var a=args[1],
+                        r=dirs[a]||a||'';
+                    
+                    return args[3].replace(args[3],r);
+                }
+                
+                return args[3];
+            });
+        };
+        /*
+         * @private
+         * @desc
+            replace placeholders({modules},{plugins},{mobile},{pad} and {web}) for actual directory
+         *
+         * @param {String} alias placeholder directory
+         * @return {String} alias actual directory
+         *
+         */
+        module.dirs=function(alias){
+            alias=_util.isObject(alias) ? alias : {};
+            
+            var dirs=_config.dirs;
+            //
+            for(var d in dirs){
+                dirs[d]=module.replace(dirs,dirs[d]);
+            }
+            //
+            for(var a in alias){
+                
+                alias[a]=module.replace(dirs,alias[a]);
+            }
+            
+            return alias;
+        };
+        /*
+         * @public
+         * @desc module initialization,module config
+         * 
+         * @param {Object} conf,reeference module.options
+                seting module.options,
+                whether open require mode,
+                whether open debug mode
+         */
+        module.init=function(conf){
+            conf=_util.isObject(conf) ? conf : {};
+            
+            _config=_util.extend(_config,conf);
+            //replace placeholder
+            _config.alias=module.dirs(_config.alias);
+            
+            //add .
+            var mined=_config.mined,
+                reg=/^\./;
+            mined=(mined && !reg.test(mined)) ? '.'+mined : mined;
+            _config.mined=mined;
+            
+            if(_config.require === true){
+                //require
+                global.require=module.declare;
+                //define
+                global.define=module.declare;
+                //define.remove
+                global.define.remove=module.remove;
+            }
+            if(_config.debug === true){
+                module.ModulesSet=ModulesSet;
+                module.ModuleCachesQueue=ModuleCachesQueue;
+                module.StatusCacheQueue=StatusCacheQueue;
+                global.module=module;
+                global.module.config=module.init;
+            }
+        };
+        /*
+         * @method
+         * @public
+         * @desc
+                setting module alias
+         *
+         * @param {Object}
+         */
+        module.alias=function(alias){
+            if(_util.isEmpty(alias)){
+                
+                return _config.alias;
+            }
+            alias=_util.isObject(alias) ? alias : {};
+            alias=module.dirs(alias);
+            
+            _config.alias=_util.extend(alias,_config.alias);
+        };
+        /*
+         * @method
+         * @public
+         * @desc
+                setting module files,in the files,said the file is not module,only a common file
+         * @param {String/Array/Object}
+                String:a file name
+                Array:many file name
+                Object:a or many file,and the file name will be in the module.alias
+         */
+        module.files=function(files){
+            if(_util.isEmpty(files)){
+                
+                return _config.files;
+            }
+            if(_util.isString(files)){
+                files=[].concat(files);
+            }
+            if(_util.isObject(files)){
+                var arr=[];
+                _util.each(files,function(k,v){
+                    arr.push(k);
+                });
+                
+                module.alias(files);
+                files=arr;
+            }
+            
+            _config.files=_util.unique(_config.files.concat(files));
+        };
+        /*
+         * @method
+         * @public
+         * @desc
+                global variables
+                according to such as jquery,zepto,jqmobi $ variable
+         *
+         */
+        module.globals=function(globals){
+            if(_util.isEmpty(globals)){
+                
+                return _config.globals;
+            }
+            if(_util.isString(globals)){
+                
+                return _config.globals[globals]||'';
+            }
+            globals=_util.isObject(globals) ? globals : {};
+            
+            _config.globals=_util.extend(globals,_config.globals);
+        };
+        module.defaults=function(name,conf){
+            if(_util.isEmpty(name)){
+                
+                return _config.defaults;
+            }
+            if(_util.isObject(name)){
+                for(var i in name){
+                    module.defaults(i,name[i]);
+                }
+                
+                return;
+            }
+            name=module.aliasId(name);
+            
+            if(conf === undefined){
+                
+                return _config.defaults[name]||{};
+            }
+            
+            conf=_util.isObject(conf) ? conf : {};
+            _config.defaults[name]=_config.defaults[name]||{};
+            
+            _config.defaults[name]=_util.extend(conf,_config.defaults[name]);
+        };
+        //get all scripts
+        module.scripts=function(){
+            
+            return document.getElementsByTagName('script');
+        };
+        //create script
+        module.createScript=function(name,async){
+            async=async===undefined || async ? true : false;
+            
+            var node=document.createElement('script');
+            node.setAttribute('data-requiremodule',name);
+            node.type='text/javascript';
+            node.charset='utf-8';
+            node.async=async;
+            
+            return node;
+        };
+        // get script data
+        module.getScriptData=function(evt){
+            var node = evt.currentTarget || evt.srcElement;
+            if(node.detachEvent){
+                node&&node.detachEvent('onreadystatechange',module.onScriptLoad);
+                node&&node.detachEvent('error',module.onScriptError);
+            }else{
+                node&&node.removeEventListener('load',module.onScriptLoad,false);
+                node&&node.removeEventListener('error',module.onScriptError,false);
+            }
+            
+            return{
+                node:node,
+                id:node&&node.getAttribute('data-requiremodule')
+            };
+        };
+        //load javascript
+        module.loadJS=function(id){
+            var m=module.isInComs(id);
+            id=m !== null ? m : id;
+            if(module.getStatus(id) > STATUS.BEGIN){
+                return;
+            }
+            module.statusSet(id,STATUS.LOADING);
+            var head=document.getElementsByTagName('head')[0],
+                node=module.createScript(id),
+                aid=module.aliasId(id,'v'),
+                src=_path.realpath(aid);
+            //add mined
+            src=src+_config.mined;
+            //add .js suffix
+            if(!REGX.JSSUFFIX.test(src)){
+                src=src+'.js';
+            }
+            //add random time
+            if(_config.nocache && !REGX.PARAMSUFFIX.test(src)){
+                src=src+'?t='+_util.now();
+            }
+            node.src=src;
+            head.appendChild(node);
+            if(node.attachEvent){
+                node.attachEvent('onreadystatechange',module.onScriptLoad);
+                node.attachEvent('onerror',module.onScriptError);
+            }else{
+                node.addEventListener('load',module.onScriptLoad,false);
+                node.addEventListener('error',module.onScriptError,false);
+            }
+        };
+        //remove javascript by the data-requiremodule attribute
+        module.removeJS=function(name){
+            name=module.aliasId(name);
+            _util.each(module.scripts(),function(i,scriptNode) {
+                if (scriptNode&&scriptNode.getAttribute('data-requiremodule') === name) {
+                    scriptNode.parentNode.removeChild(scriptNode);
+                    
+                    return true;
+                }
+            });
+        };
+        //script load success callback
+        module.onScriptLoad=function(evt){
+            var el=evt.currentTarget || evt.srcElement;
+            //if(evt.type === 'load' || (evt.type === 'readystatechange' && (el.readyState === 'loaded' || el.readyState === 'complete'))){
+            if(!el.readyState || el.readyState === 'loaded' || el.readyState === 'complete'){
+                var data=module.getScriptData(evt),
+                    id=data['id'];
+                module.statusSet(id,STATUS.LOADED);
+                // || module.isInComs(id)
+                if(module.isInFiles(id) || module.isInComs(id)){
+                    
+                    module.compile(id);
+                    module.complete(id,[],function(){return {};});
+                }
+                //module.removeJS(id);
+            }
+        };
+        //script load error callback
+        module.onScriptError=function(evt){
+            var data=module.getScriptData(evt),
+                id=data['id'];
+            module.statusSet(id,STATUS.ERROR);
+            module.compile(id);
+            
+            module.removeJS(id);
+        };
+        // set module status
+        module.statusSet=function(id,status){
+            id=module.aliasId(id);
+            
+            if(!StatusCacheQueue[id]){
+                StatusCacheQueue[id]={};
+            }
+            
+            StatusCacheQueue[id]['status']=status;
+        };
+        // get module status
+        module.getStatus=function(id){
+            id=module.aliasId(id);
+            
+            return StatusCacheQueue[id]&&StatusCacheQueue[id]['status']||STATUS.BEGIN;
+        };
+        //load module
+        module.load=function(uris){
+            _util.each(uris,function(i,id){
+                
+                module.loadJS(id);
+            });
+        };
+        // is module in the module.alias
+        module.isInAlias=function(name){
+            var alias=_config.alias;
+            for(var k in alias){
+                var v=_util.path2name(alias[k]);
+                if(k === name || v === name || alias[k] === name){
+                    
+                    return {k:k,v:alias[k]};
+                }
+            }
+            
+            return null;
+        };
+        //get alias id
+        module.aliasId=function(id,type){
+            type=type||'k';
+            var aid=module.isInAlias(id);
+            id=aid&&aid[type]||id;
+            
+            return id;
+        };
+        //is module in the module.files
+        module.isInFiles=function(name){
+            var files=_config.files;
+            var i=0,
+                len=files.length;
+            name=module.aliasId(name);
+            
+            for(;i<len;i++){
+                if(files[i] === name){
+                    
+                    return true;
+                }
+            }
+            
+            return false;
+        };
+        // is module in the module.coms
+        module.isInComs=function(name){
+            var coms=_config.coms,
+                k=module.aliasId(name),
+                v=module.aliasId(name,'v');
+            for(var m in coms){
+                if(k === m || _util.isInArray(coms[m],k) || _util.isInArray(coms[m],v)){
+                    
+                    return m;   
+                }
+            }
+            
+            return null;
+        };
+        //is module already in the module set
+        module.isInModules=function(id){
+            id=module.aliasId(id);
+            
+            return ModulesSet[id];
+        };
+        //separating a module which has not been in the module set
+        module.noInModulesItems=function(dependencies){
+            var arr=[];
+            _util.each(dependencies,function(i,id){
+                var m=module.isInComs(id);
+                id=m !== null ? m : id;
+                if(!module.isInModules(id)){
+                    
+                    arr.push(id);
+                }
+            });
+            
+            return arr;
+        };
+        /*
+         * @private
+         * @desc
+                is require a module, not define a module
+                such as
+                module.declare(id,dependencies,function(){})
+                module.declare(id,dependencies,function(require){})
+                
+                return true
+                such as
+                module.declare(id,dependencies,function(require,exports){})
+                module.declare(id,dependencies,function(require,exports,module){})
+                
+                return false
+         *
+         */
+        module.isRequire=function(code){
+            if(code){
+                return REGX.REQUIRE_FUN.test(code); 
+            }
+            
+            return false;
+        };
+        //set module
+        module.moduleSet=function(id,dependencies,factory){
+            id=module.aliasId(id);
+            
+            if(module.isInModules(id) && _util.isFunction(factory)){
+                if(module.isRequire(factory.toString())){
+                    factory(this.declare);
+                    return;
+                }
+                //throw 'module \"'+ id + '\" already defined!';
+                                //return console && console.error && console.error( 'module \"'+ id + '\" already defined!');
+                                
+                                return ;
+            }
+            
+            if(!_util.isFunction(factory)){
+                
+                return;
+            }
+            ModulesSet[id]={
+                id:id,
+                dependencies:dependencies,
+                factory:factory
+            };
+        };
+        //compile module
+        module.compile=function(id){
+            id=module.aliasId(id);
+            var v=module.aliasId(id,'v');
+            
+            _util.each(ModuleCachesQueue,function(index,json){
+                if(!json){
+                    return;
+                }
+                var links=json['links']||[];
+                
+                if(!(_util.isInArray(links,id) || _util.isInArray(links,v))){
+                    
+                    return;
+                }
+                
+                function deleteLink(){
+                    var i=0,
+                        len=links.length;
+                    for(;i<len;i++){
+                        if(links[i] === id){
+                            links.splice(i,1);
+                            module.compile(id);
+                            return;
+                        }
+                    }
+                }
+                
+                if(links.length <= 1){
+                    var uid=json['id']||_util.uid(),
+                        dependencies=json['dependencies']||[],
+                        factory=json['factory']||'';
+                        var ms=ModulesSet[id]||{},
+                            dept=ms['dependencies']||[];
+                        
+                        dependencies=dependencies.concat(dept);
+                        dependencies=_util.unique(dependencies);
+                        ModuleCachesQueue.splice(index,1);
+                        module.complete(uid,dependencies,factory);
+                }
+                //delete loaded dependency
+                deleteLink();
+            });
+        };
+        //complete a module,return exports
+        module.complete=function(id,dependencies,factory){
+            module.moduleSet(id,dependencies,factory);
+            
+            var exports=module.exports(id);
+            module.compile(id);
+            
+            return exports; 
+        };
+        //buile a module
+        module.build=function(module){
+            var factory=module.factory;
+            module.exports={};
+            delete module.factory;
+            var moduleExports=factory(this.declare,module.exports,module);
+            //jQuery direct return
+            if(_util.isEmptyObject(module.exports)){
+                module.exports=moduleExports||{};
+            }
+            
+            return module.exports;
+        };
+        //module's exports
+        module.exports=function(id){
+            //module in ModulesSet
+            if(module.isInModules(id)){
+                id=module.aliasId(id);
+                var exports=ModulesSet[id].factory ? module.build(ModulesSet[id]) : ModulesSet[id].exports;
+                
+                return exports;
+            }
+            
+            return null;
+        };
+        /*
+         * @method
+         * @public
+         * @desc
+                the main method,define or require a module
+         *
+         * @param {String} id : module id,not necessary
+         * @param {Array} dependencies : the module dependencies,necessary
+         * @param {Function} : a callback or module factory,is necessary
+         * 
+         * @return
+                return a exports or null,when asynchronous loading return null,require a module return module.exports
+         */
+        module.declare=function(id,dependencies,factory){
+            dependencies=dependencies||[];
+            if(_util.isArray(id)){
+                factory=dependencies;
+                dependencies=id;
+                id='';
+            }
+            if(_util.isFunction(dependencies)){
+                factory=dependencies;
+                dependencies=[];
+            }
+            
+            if(_util.isFunction(id)){
+                factory=id;
+                dependencies=_util.parseDependencies(factory.toString())||[];
+                id='';
+            }
+            
+            //dependencies=id ? [].concat(id).concat(dependencies) : dependencies;
+            //anonymous module
+            id=id||_util.uid();
+            var items=module.noInModulesItems(dependencies);
+            if(items&&items.length){
+                var json={
+                    id:id,
+                    dependencies:dependencies,
+                    factory:factory,
+                    links:_util.path2name(items)
+                };
+                
+                ModuleCachesQueue.push(json);
+                module.load(dependencies);
+                return;
+            }
+            
+            return module.complete(id,dependencies,factory);
+        };
+        //remove a module,only in open require mode
+        module.remove=function(id){
+            id=module.aliasId(id);
+            if(!id){
+                
+                return;
+            }
+            //remove javascript
+            module.removeJS(id);
+            //delete status
+            delete StatusCacheQueue[id];
+            //delete module
+            delete ModulesSet[id];
+        };
+    })();
+    
+    //global method
+    global.module=global.module||{};
+    global.module.config=module.init;
+    global.module.alias=module.alias;
+    global.module.files=module.files;
+    global.module.globals=module.globals;
+    global.module.defaults=module.defaults;
+    global.module.declare=module.declare;
+    
+    //conflict
+    global.module.conflict=function(){
+        global._module=global.module;
+        global._require=global.require;
+        global._define=global.define;
+        
+        delete global.module;
+        delete global.require;
+        delete global.define;
+        //
+        global._module.conflict=function(){
+            delete global._module.conflict;
+            global.module=global._module;
+            global.require=global._require;
+            global.define=global._define;
+            
+            delete global._module;
+            delete global._require;
+            delete global._defined;
+        };
+    };
+    
+})(window);

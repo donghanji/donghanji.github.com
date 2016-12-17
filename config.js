@@ -6,7 +6,7 @@
         'mined':'min',
         'dirs':{},
         'alias':{
-            'jquery':'http://code.jquery.com/jquery-2.0.3',
+            'jquery':'//code.jquery.com/jquery-2.0.3',
             'jquery.module':'{modules}/jquery.module',
             
             'os':'{plugins}/os',
